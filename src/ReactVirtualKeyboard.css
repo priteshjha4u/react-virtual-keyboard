@@ -1,0 +1,85 @@
+.keyboard_container {
+  padding: 5px;
+  width: 100%;
+}
+.keyboard_container li.upperkey {
+  margin-right: 4px;
+}
+.keyboard_container li:last-child {
+  margin-right: 0px;
+}
+.keyboard_container li a {
+  background: #404b50;
+  color: white;
+  width: 100%;
+  height: 100%;
+  display: flow-root;
+  position: center;
+  font-size: 1.8vw;
+  background-size: strech;
+}
+.keyboard_container li a .keyNo {
+  font-size: 8px;
+  position: absolute;
+  top: -22px;
+  right: 5px;
+}
+.keyboard_container ul li a:hover,
+.keyboard_container ul li a:visited,
+.keyboard_container ul li a:active,
+.keyboard_container ul li a:focus {
+  text-decoration: none;
+}
+.keyboard_container li a.enterKey {
+  padding: 0px 46px;
+}
+.keyboard_container li a.spaceKey {
+  padding: 13px 153px;
+}
+.keyboard_container li a.dot {
+  width: 45px;
+  font-size: 1.8vw;
+}
+.keyboard_container ul {
+  display: flex;
+  padding: 0px;
+  margin: 0px;
+  flex-wrap: nowrap;
+}
+.keyboard_container ul li {
+  flex-basis: 100%;
+  color: white;
+  height: 60px;
+  font-size: 1.5vw;
+  margin: 0 0.3vh 0.5vh;
+  border-radius: 4px;
+  line-height: 60px;
+  font-family: arial;
+  text-align: center;
+  cursor: pointer;
+  border-radius: 2px;
+  list-style: none;
+}
+.keyboard_container ul.row_1 {
+  padding: 0px 2% 0px 3%;
+}
+/* theme color */
+.keyboard_container {
+  background: #253239;
+}
+.keyboard_container li a {
+  background: #404b50;
+  color: #d0d7d9;
+}
+.keyboard_container li a.fnKey {
+  background: #2f3c41;
+}
+.keyboard_container li a.enterKey {
+  background: #5db5ac;
+}
+.shift_activated {
+  background: #6d0f17;
+}
+.keyboard_container ul li {
+  background: #404b50;
+}
