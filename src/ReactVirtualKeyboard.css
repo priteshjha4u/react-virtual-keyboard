@@ -2,13 +2,10 @@
   padding: 5px;
   width: 100%;
 }
-.keyboard-container li.upperkey {
-  margin-right: 4px;
-}
 .keyboard-container li:last-child {
   margin-right: 0px;
 }
-.keyboard-container li a {
+.keyboard-container li button {
   background: #404b50;
   color: white;
   width: 100%;
@@ -18,27 +15,26 @@
   font-size: 1.8vw;
   background-size: strech;
 }
-.keyboard-container li a .keyNo {
+.keyboard-container li button .keyNo {
   font-size: 8px;
   position: absolute;
   top: -22px;
   right: 5px;
 }
-.keyboard-container ul li a:hover,
-.keyboard-container ul li a:visited,
-.keyboard-container ul li a:active,
-.keyboard-container ul li a:focus {
+.keyboard-container ul li button:hover,
+.keyboard-container ul li button:visited,
+.keyboard-container ul li button:active,
+.keyboard-container ul li button:focus {
   text-decoration: none;
 }
-.keyboard-container li a.enterKey {
+.keyboard-container li button.enter-key {
   padding: 0px 46px;
 }
-.keyboard-container li a.spaceKey {
+.keyboard-container li button.space-key {
   padding: 13px 153px;
 }
-.keyboard-container li a.dot {
-  width: 45px;
-  font-size: 1.8vw;
+.keyboard-container li button.shift {
+  background: #aaaaaa;
 }
 .keyboard-container ul {
   display: flex;
@@ -60,21 +56,21 @@
   border-radius: 2px;
   list-style: none;
 }
-.keyboard-container ul.row_1 {
+/* .keyboard-container ul.row-1 {
   padding: 0px 2% 0px 3%;
-}
+} */
 /* theme color */
 .keyboard-container {
   background: #253239;
 }
-.keyboard-container li a {
+.keyboard-container li button {
   background: #404b50;
   color: #d0d7d9;
 }
-.keyboard-container li a.fnKey {
+.keyboard-container li button.back-key {
   background: #2f3c41;
 }
-.keyboard-container li a.enterKey {
+.keyboard-container li button.enter-key {
   background: #5db5ac;
 }
 .shift_activated {
