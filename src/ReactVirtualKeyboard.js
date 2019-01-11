@@ -11,7 +11,7 @@ class ReactVirtualKeyboard extends Component {
       ["q", "w", "e", "r", "t", "y", "u", "i", "o", "p", "back"],
       ["a", "s", "d", "f", "g", "h", "j", "k", "l", "enter"],
       ["shift", "z", "x", "c", "v", "b", "n", "m", "!", "?", "shift"],
-      ["123?", "@", "space", ".com", ".", "123?"]
+      ["123", "@", "space", ".com", ".", "123"]
     ];
     this.alphabet = "abcdefghijklmnopqrstuvwxyz";
     this.state = {
@@ -21,10 +21,72 @@ class ReactVirtualKeyboard extends Component {
     };
   }
 
+  componentDidMount() {
+    const keys = JSON.parse(JSON.stringify(this.keys)).slice(3);
+    this.setState({ currentKeys: keys });
+  }
+
+  keyClick(key) {
+    console.log(key);
+  }
+
+  createKey(key, shift) {
+    switch (key) {
+      case "back": {
+        return (
+          <a href="javascript:;" className="back-key">
+            &#9003;
+          </a>
+        );
+      }
+      case "enter": {
+        return (
+          <a href="javascript:;" className="enter-key">
+            &#8629;
+          </a>
+        );
+      }
+      case "shift": {
+        return (
+          <a href="javascript:;" className={shift ? "shift" : ""}>
+            &#8679;
+          </a>
+        );
+      }
+      case "space": {
+        return (
+          <a href="javascript:;" className="space-key">
+            &#32;
+          </a>
+        );
+      }
+      default: {
+        return (
+          <a href="javascript:;" className="fnKey">
+            {key}
+          </a>
+        );
+      }
+    }
+  }
+
   render() {
+    const { currentKeys, shift, numbers } = this.state;
     return (
-      <div className="keyboard_container">
-       
+      <div className="keyboard-container">
+        {currentKeys.map((keys, keysIndex) => {
+          return (
+            <ul className={`row-${keysIndex}`}>
+              {keys.map(key => {
+                return (
+                  <li className={shift ? "uppercase" : ""} onClick={()=>this.keyClick(key)}>
+                    {this.createKey(key, shift)}
+                  </li>
+                );
+              })}
+            </ul>
+          );
+        })}
       </div>
     );
   }
