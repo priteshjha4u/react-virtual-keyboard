@@ -15,12 +15,6 @@
   font-size: 1.8vw;
   background-size: strech;
 }
-.keyboard-container li button .keyNo {
-  font-size: 8px;
-  position: absolute;
-  top: -22px;
-  right: 5px;
-}
 .keyboard-container ul li button:hover,
 .keyboard-container ul li button:visited,
 .keyboard-container ul li button:active,
@@ -28,11 +22,11 @@
   text-decoration: none;
 }
 .keyboard-container li button.enter-key {
-  padding: 0px 46px;
+  padding: 0px 40px;
 }
-.keyboard-container li button.space-key {
-  padding: 13px 153px;
-}
+/* .keyboard-container li button.space-key {
+  padding: 13px 150px;
+} */
 .keyboard-container li button.shift {
   background: #aaaaaa;
 }
@@ -71,7 +65,8 @@
   background: #2f3c41;
 }
 .keyboard-container li button.enter-key {
-  background: #5db5ac;
+  /* background: #5db5ac; */
+  background: #aaaaaa;
 }
 .shift_activated {
   background: #6d0f17;

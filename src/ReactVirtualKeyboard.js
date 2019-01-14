@@ -39,6 +39,21 @@ class ReactVirtualKeyboard extends Component {
           this.setBlur();
         }
         document.addEventListener("click", this.documentClick);
+        const options = this.props.options;
+        if (options) {
+          if (options.alphabet === false && !options.onlyNumeric) {
+            this.activateNumbers();
+          }
+          if (options.onlyNumeric === true) {
+            const keys = [
+              ["1", "2", "3"],
+              ["4", "5", "6"],
+              ["7", "8", "9"],
+              ["back", "0", "clear"]
+            ];
+            this.setState({ currentKeys: keys });
+          }
+        }
       }
     );
   }
@@ -83,15 +98,15 @@ class ReactVirtualKeyboard extends Component {
     return this.updateCaretPosition();
   };
 
-  keyClick(_key) {
-    const key = _key && _key.trim();
+  keyClick(k) {
+    const key = k && k.trim();
     if (key === "shift") {
       return this.activateShift();
     }
     if (key === "123") {
       return this.activateNumbers();
     }
-    return this.updateInputValue(key);
+    return this.updateInput(key);
   }
 
   activateShift() {
@@ -128,7 +143,7 @@ class ReactVirtualKeyboard extends Component {
     });
   }
 
-  updateInputValue(value) {
+  updateInput(value) {
     const { input } = this.state;
     let { inputCaretPosition } = this.state;
     const { updateHandler } = this.props;
@@ -309,19 +324,35 @@ class ReactVirtualKeyboard extends Component {
   createKey(key, shift, numbers) {
     switch (key) {
       case "back": {
-        return <button className="back-key">&#9003;</button>;
+        return (
+          <button className="back-key" title="BACKSPACE">
+            &#9003;
+          </button>
+        );
       }
       case "enter": {
-        return <button className="enter-key">&#8629;</button>;
+        return (
+          <button className="enter-key" title="ENTER">
+            &#8629;
+          </button>
+        );
       }
       case "shift": {
-        return <button className={shift ? "shift" : ""}>&#8679;</button>;
+        return (
+          <button className={shift ? "shift" : ""} title="SHIFT">
+            &#8679;
+          </button>
+        );
       }
       case "space": {
-        return <button className="space-key">&#32;</button>;
+        return (
+          <button className="space-key" title="SPACE">
+            {key}
+          </button>
+        );
       }
       case "clear": {
-        return <button>&#10754;</button>;
+        return <button title="CLEAR">&#10754;</button>;
       }
       default: {
         return (
