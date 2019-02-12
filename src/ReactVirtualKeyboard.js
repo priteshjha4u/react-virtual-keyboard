@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import PropTypes from "prop-types";
 import "./ReactVirtualKeyboard.css";
 
 class ReactVirtualKeyboard extends Component {
@@ -19,9 +20,7 @@ class ReactVirtualKeyboard extends Component {
       shift: false,
       numbers: false,
       isMounted: false,
-      input: null,
-      inputCaretPosition: 0,
-      _input: ""
+      inputCaretPosition: 0
     };
   }
 
@@ -30,15 +29,9 @@ class ReactVirtualKeyboard extends Component {
     this.setState(
       {
         currentKeys: keys,
-        isMounted: true,
-        input: this.props.input
+        isMounted: true
       },
       () => {
-        const { input } = this.state;
-        if (input) {
-          this.setBlur();
-        }
-        document.addEventListener("click", this.documentClick);
         const options = this.props.options;
         if (options) {
           if (options.alphabet === false && !options.onlyNumeric) {
@@ -58,60 +51,22 @@ class ReactVirtualKeyboard extends Component {
     );
   }
 
-  componentWillUnmount() {
-    const { input } = this.state;
-    if (input) {
-      input.removeEventListener("blur", this.inputBlur);
-    }
-    document.removeEventListener("click", this.documentClick);
-  }
-
-  componentWillReceiveProps(newProps) {
-    const currentInput = this.props.input;
-    const newInput = newProps.input;
-    if (!currentInput && newInput) {
-      return this.setState({ input: newInput }, () => {
-        this.setBlur();
-      });
-    }
-    if (
-      currentInput &&
-      newInput &&
-      newInput.name &&
-      currentInput.name &&
-      currentInput.name !== newInput.name
-    ) {
-      this.setState({ input: newInput }, () => {
-        this.setBlur();
-      });
-    }
-  }
-
-  setBlur() {
-    const { input } = this.state;
-    if (input) {
-      input.addEventListener("blur", this.inputBlur);
-    }
-  }
-
-  inputBlur = () => {
-    return this.updateCaretPosition();
-  };
-
-  keyClick(k) {
-    const key = k && k.trim();
-    if (key === "shift") {
+  keyClick(key) {
+    const k = key && key.trim();
+    if (k === "shift") {
       return this.activateShift();
     }
-    if (key === "123") {
+    if (k === "123") {
       return this.activateNumbers();
     }
-    return this.updateInput(key);
+    return this.updateCaretPosition(() => {
+      this.update(k);
+    });
   }
 
   activateShift() {
     this.setState({ shift: !this.state.shift }, () => {
-      const { shift, input } = this.state;
+      const { shift } = this.state;
       const newKeys = JSON.parse(JSON.stringify(this.keys)).slice(3);
       const alphabet = this.alphabet.split("");
       newKeys.forEach(arr => {
@@ -121,40 +76,29 @@ class ReactVirtualKeyboard extends Component {
           }
         });
       });
-      this.setState({ currentKeys: newKeys }, () => {
-        // this.setCaretPosition(input, inputCaretPosition);
-        if (input) {
-          input.focus();
-        }
-      });
+      this.setState({ currentKeys: newKeys });
     });
   }
 
   activateNumbers() {
     this.setState({ numbers: !this.state.numbers, shift: false }, () => {
-      const { numbers, input } = this.state;
+      const { numbers } = this.state;
       const newKeys = JSON.parse(JSON.stringify(this.keys));
       numbers ? newKeys.splice(3, 3) : newKeys.splice(0, 3);
-      this.setState({ currentKeys: newKeys }, () => {
-        if (input) {
-          input.focus();
-        }
-      });
+      this.setState({ currentKeys: newKeys });
     });
   }
 
-  updateInput(value) {
-    const { input } = this.state;
+  update(value) {
     let { inputCaretPosition } = this.state;
-    const { updateHandler } = this.props;
-    if (input && updateHandler && typeof updateHandler === "function") {
+    const { updateHandler, input } = this.props;
+    if (input && updateHandler) {
       const currentModelValue = input.value;
       const currentModel = input["name"];
       if (value === "enter") {
         if (input.nodeName.toLocaleLowerCase() === "textarea") {
           value = "\n";
         } else {
-          this.setCaretPosition(input, inputCaretPosition);
           return;
         }
       }
@@ -164,10 +108,6 @@ class ReactVirtualKeyboard extends Component {
       if (value === "clear") {
         inputCaretPosition = 0;
         return this.setState({ inputCaretPosition }, () => {
-          const { input } = this.state;
-          if (input) {
-            input.focus();
-          }
           updateHandler(currentModel, "");
         });
       }
@@ -205,7 +145,6 @@ class ReactVirtualKeyboard extends Component {
         } else {
           if (value === "back") {
             if (temp <= 0) {
-              input.focus();
               return;
             }
             this.setState({ inputCaretPosition }, () => {
@@ -219,7 +158,6 @@ class ReactVirtualKeyboard extends Component {
         }
       } else {
         if (value === "back") {
-          input.focus();
           return;
         }
         inputCaretPosition += 1;
@@ -256,11 +194,11 @@ class ReactVirtualKeyboard extends Component {
     }
   }
 
-  updateCaretPosition() {
-    const { input } = this.state;
+  updateCaretPosition(cb) {
+    const { input } = this.props;
     if (input) {
       const inputCaretPosition = this.getCaretPosition(input);
-      this.setState({ inputCaretPosition });
+      this.setState({ inputCaretPosition }, cb);
     }
   }
 
@@ -280,47 +218,6 @@ class ReactVirtualKeyboard extends Component {
     return iCaretPos;
   }
 
-  documentClick = event => {
-    setTimeout(() => {
-      let keyboard = false;
-      const { input, _input } = this.state;
-      if (event["path"] && event["path"].length) {
-        event["path"].some(el => {
-          if (
-            el.className &&
-            el.className.length &&
-            el.className.indexOf("keyboard-container") >= 0
-          ) {
-            keyboard = true;
-            return true;
-          }
-          return false;
-        });
-      }
-      if (keyboard) {
-        return false;
-      }
-      if (
-        event["path"] &&
-        event["path"][0] &&
-        (event["path"][0].nodeName.toLowerCase() === "input" ||
-          event["path"][0].nodeName.toLowerCase() === "textarea")
-      ) {
-        if (!input && _input) {
-          const inputEl = document.getElementsByName(_input);
-          if (inputEl.length) {
-            this.setState({ input: inputEl[0] });
-          }
-        }
-        return false;
-      }
-      if (input) {
-        this.setState({ _input: input["name"] });
-      }
-      this.setState({ input: null });
-    }, 0);
-  };
-
   createKey(key, shift, numbers) {
     switch (key) {
       case "back": {
@@ -339,7 +236,7 @@ class ReactVirtualKeyboard extends Component {
       }
       case "shift": {
         return (
-          <button className={shift ? "shift" : ""} title="SHIFT">
+          <button className={shift ? "shift-activated" : "shift"} title="SHIFT">
             &#8679;
           </button>
         );
@@ -352,7 +249,11 @@ class ReactVirtualKeyboard extends Component {
         );
       }
       case "clear": {
-        return <button title="CLEAR">&#10754;</button>;
+        return (
+          <button title="CLEAR" className="clear-key">
+            &#10754;
+          </button>
+        );
       }
       default: {
         return (
@@ -374,7 +275,10 @@ class ReactVirtualKeyboard extends Component {
       return null;
     }
     return (
-      <div className="keyboard-container">
+      <div
+        className="keyboard-container"
+        onMouseDown={e => e.stopPropagation()}
+      >
         {currentKeys.map((keys, keysIndex) => {
           const i = ++keysIndex;
           return (
@@ -384,7 +288,11 @@ class ReactVirtualKeyboard extends Component {
                 return (
                   <li
                     key={`${key.toLowerCase()}-${i}`}
-                    onClick={() => this.keyClick(key)}
+                    onMouseDown={e => {
+                      e.preventDefault();
+                      e.stopPropagation();
+                      this.keyClick(key);
+                    }}
                   >
                     {this.createKey(key, shift, numbers)}
                   </li>
@@ -397,5 +305,13 @@ class ReactVirtualKeyboard extends Component {
     );
   }
 }
+
+ReactVirtualKeyboard.propTypes = {
+  input: PropTypes.oneOfType([
+    PropTypes.instanceOf(HTMLInputElement),
+    PropTypes.instanceOf(HTMLTextAreaElement)
+  ]),
+  updateHandler: PropTypes.func.isRequired
+};
 
 export default ReactVirtualKeyboard;
