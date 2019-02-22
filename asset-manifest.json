@@ -1,7 +1,7 @@
 {
   "main.css": "/react-virtual-keyboard/static/css/main.5cd71eeb.chunk.css",
-  "main.js": "/react-virtual-keyboard/static/js/main.57891275.chunk.js",
-  "main.js.map": "/react-virtual-keyboard/static/js/main.57891275.chunk.js.map",
+  "main.js": "/react-virtual-keyboard/static/js/main.b840bb0e.chunk.js",
+  "main.js.map": "/react-virtual-keyboard/static/js/main.b840bb0e.chunk.js.map",
   "static/css/1.672d55a1.chunk.css": "/react-virtual-keyboard/static/css/1.672d55a1.chunk.css",
   "static/js/1.aa158b9f.chunk.js": "/react-virtual-keyboard/static/js/1.aa158b9f.chunk.js",
   "static/js/1.aa158b9f.chunk.js.map": "/react-virtual-keyboard/static/js/1.aa158b9f.chunk.js.map",
@@ -10,6 +10,6 @@
   "static/css/1.672d55a1.chunk.css.map": "/react-virtual-keyboard/static/css/1.672d55a1.chunk.css.map",
   "static/css/main.5cd71eeb.chunk.css.map": "/react-virtual-keyboard/static/css/main.5cd71eeb.chunk.css.map",
   "index.html": "/react-virtual-keyboard/index.html",
-  "precache-manifest.1d314cb5c8629ae0d1e57ce4cbf8d4c2.js": "/react-virtual-keyboard/precache-manifest.1d314cb5c8629ae0d1e57ce4cbf8d4c2.js",
+  "precache-manifest.a8fe16a7435446719f631a13f1dab5bd.js": "/react-virtual-keyboard/precache-manifest.a8fe16a7435446719f631a13f1dab5bd.js",
   "service-worker.js": "/react-virtual-keyboard/service-worker.js"
 }
