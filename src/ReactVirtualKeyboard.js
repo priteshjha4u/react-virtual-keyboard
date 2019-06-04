@@ -311,7 +311,14 @@ ReactVirtualKeyboard.propTypes = {
     PropTypes.instanceOf(HTMLInputElement),
     PropTypes.instanceOf(HTMLTextAreaElement)
   ]),
-  updateHandler: PropTypes.func.isRequired
+  updateHandler: PropTypes.func,
+  options: PropTypes.object
 };
+
+ReactVirtualKeyboard.defaultProps = {
+  input: null,
+  updateHandler: ()=>{},
+  options:{}
+}
 
 export default ReactVirtualKeyboard;
